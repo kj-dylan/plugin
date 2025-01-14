@@ -312,22 +312,18 @@ export function activate(context: vscode.ExtensionContext) {
             const items = [
                 {
                     label: '$(calendar-day) ' + (isZh ? '生成日报' : 'Generate Daily Report'),
-                    command: 'weeklyReport.generateDaily',
                     reportType: 'daily'
                 },
                 {
                     label: '$(calendar-week) ' + (isZh ? '生成周报' : 'Generate Weekly Report'),
-                    command: 'weeklyReport.generateWeekly',
                     reportType: 'weekly'
                 },
                 {
                     label: '$(calendar-month) ' + (isZh ? '生成月报' : 'Generate Monthly Report'),
-                    command: 'weeklyReport.generateMonthly',
                     reportType: 'monthly'
                 },
                 {
                     label: '$(calendar-range) ' + (isZh ? '生成季报' : 'Generate Quarterly Report'),
-                    command: 'weeklyReport.generateQuarterly',
                     reportType: 'quarterly'
                 }
             ];
@@ -338,9 +334,11 @@ export function activate(context: vscode.ExtensionContext) {
 
             if (selected) {
                 try {
-                    // 打印选中的报告类型和命令
-                    channel.appendLine(`选择了报告类型: ${selected.reportType}, 执行命令: ${selected.command}`);
-                    await vscode.commands.executeCommand(selected.command);
+                    const config = vscode.workspace.getConfiguration('weeklyReport');
+                    // 更新配置中的报告类型
+                    await config.update('reportType', selected.reportType, vscode.ConfigurationTarget.Global);
+                    // 直接生成对应类型的报告
+                    await generateReport(config, channel, selected.reportType);
                 } catch (error) {
                     vscode.window.showErrorMessage(isZh ?
                         `生成${selected.label}失败: ${error}` :

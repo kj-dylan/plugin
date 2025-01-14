@@ -77,7 +77,6 @@ A: Check if there are commits in the date range, or try adjusting the date range
 
 # Future Plans
 
-- Support one-click generation
 - Support weekly statistics for monthly and quarterly reports
 - Welcome to submit requirements
 

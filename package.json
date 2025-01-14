@@ -2,8 +2,30 @@
     "name": "git-weekly-report",
     "displayName": "Git工作报告生成器",
     "description": "基于Git提交记录自动生成工作日志的VSCode插件（支持周报、日报、月报、季度报）",
-    "version": "0.0.20",
+    "version": "1.0.0",
     "publisher": "dylan",
+    "author": {
+        "name": "Dylan",
+        "url": "https://github.com/kj-dylan"
+    },
+    "keywords": [
+        "git",
+        "report",
+        "weekly",
+        "daily",
+        "monthly",
+        "quarterly",
+        "工作报告",
+        "周报",
+        "日报",
+        "月报",
+        "季报",
+        "git report"
+    ],
+    "galleryBanner": {
+        "color": "#C80000",
+        "theme": "dark"
+    },
     "engines": {
         "vscode": "^1.80.0",
         "node": ">=16.0.0"
@@ -143,62 +165,16 @@
                 "when": "editorTextFocus"
             }
         ],
-        "viewsContainers": {
-            "activitybar": [
-                {
-                    "id": "report-generator",
-                    "title": "Report Generator",
-                    "icon": "resources/report-icon.svg"
-                }
-            ]
-        },
-        "views": {
-            "report-generator": [
-                {
-                    "id": "reportActions",
-                    "name": "Report Actions"
-                }
-            ]
-        },
         "menus": {
-            "view/title": [
-                {
-                    "command": "weeklyReport.generate",
-                    "when": "view == reportActions",
-                    "group": "navigation"
-                }
-            ],
-            "view/item/context": [
-                {
-                    "command": "weeklyReport.generateDaily",
-                    "group": "inline",
-                    "when": "view == reportActions"
-                },
-                {
-                    "command": "weeklyReport.generateWeekly",
-                    "group": "inline",
-                    "when": "view == reportActions"
-                },
-                {
-                    "command": "weeklyReport.generateMonthly",
-                    "group": "inline",
-                    "when": "view == reportActions"
-                },
-                {
-                    "command": "weeklyReport.generateQuarterly",
-                    "group": "inline",
-                    "when": "view == reportActions"
-                }
-            ],
             "editor/title": [
                 {
                     "command": "weeklyReport.generate",
-                    "group": "navigation@1",
+                    "group": "navigation@0.1",
                     "when": "editorIsOpen"
                 },
                 {
                     "command": "weeklyReport.showQuickPick",
-                    "group": "navigation@1",
+                    "group": "navigation@0.11",
                     "when": "editorIsOpen"
                 }
             ]
