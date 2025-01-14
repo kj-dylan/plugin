@@ -1,0 +1,244 @@
+{
+    "name": "git-weekly-report",
+    "displayName": "Git工作报告生成器",
+    "description": "基于Git提交记录自动生成工作日志的VSCode插件（支持周报、日报、月报、季度报）",
+    "version": "0.0.20",
+    "publisher": "dylan",
+    "engines": {
+        "vscode": "^1.80.0",
+        "node": ">=16.0.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "onCommand:weeklyReport.generate"
+    ],
+    "main": "./out/extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "weeklyReport.generateDaily",
+                "title": "生成日报",
+                "category": "工作报告"
+            },
+            {
+                "command": "weeklyReport.generateWeekly",
+                "title": "生成周报",
+                "category": "工作报告"
+            },
+            {
+                "command": "weeklyReport.generateMonthly",
+                "title": "生成月报",
+                "category": "工作报告"
+            },
+            {
+                "command": "weeklyReport.generateQuarterly",
+                "title": "生成季报",
+                "category": "工作报告"
+            },
+            {
+                "command": "weeklyReport.generate",
+                "title": "生成工作报告",
+                "category": "工作报告",
+                "icon": "$(calendar)"
+            },
+            {
+                "command": "weeklyReport.showQuickPick",
+                "title": "选择报告类型",
+                "category": "工作报告",
+                "icon": "$(chevron-down)"
+            }
+        ],
+        "configuration": {
+            "title": "工作报告生成器",
+            "properties": {
+                "weeklyReport.openai.apiKey": {
+                    "type": "string",
+                    "description": "OpenAI API Key"
+                },
+                "weeklyReport.openai.baseUrl": {
+                    "type": "string",
+                    "default": "https://api.deepseek.com",
+                    "description": "OpenAI API 基础URL"
+                },
+                "weeklyReport.repositories": {
+                    "type": "array",
+                    "description": "Git仓库配置",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "path": {
+                                "type": "string",
+                                "description": "仓库本地路径"
+                            },
+                            "name": {
+                                "type": "string",
+                                "description": "仓库名称"
+                            }
+                        }
+                    }
+                },
+                "weeklyReport.dateRange": {
+                    "type": "object",
+                    "description": "日期范围",
+                    "properties": {
+                        "from": {
+                            "type": "string",
+                            "description": "开始日期 (YYYY-MM-DD)"
+                        },
+                        "to": {
+                            "type": "string",
+                            "description": "结束日期 (YYYY-MM-DD)"
+                        }
+                    }
+                },
+                "weeklyReport.promptTemplate": {
+                    "type": "string",
+                    "description": "自定义提示词模板"
+                },
+                "weeklyReport.outputPath": {
+                    "type": "string",
+                    "description": "周报文件保存路径",
+                    "default": "reports"
+                },
+                "weeklyReport.reportType": {
+                    "type": "string",
+                    "enum": [
+                        "daily",
+                        "weekly",
+                        "monthly",
+                        "quarterly"
+                    ],
+                    "enumDescriptions": [
+                        "日报 - 当天的工作内容",
+                        "周报 - 本周一到现在的工作内容",
+                        "月报 - 本月初到现在的工作内容",
+                        "季报 - 本季度初到现在的工作内容"
+                    ],
+                    "default": "weekly",
+                    "description": "报告类型（日报/周报/月报/季报）"
+                },
+                "weeklyReport.customRange": {
+                    "type": "object",
+                    "description": "自定义日期范围（当需要自定义时间范围时使用）",
+                    "properties": {
+                        "from": {
+                            "type": "string",
+                            "description": "开始日期 (YYYY-MM-DD)"
+                        },
+                        "to": {
+                            "type": "string",
+                            "description": "结束日期 (YYYY-MM-DD)"
+                        }
+                    }
+                }
+            }
+        },
+        "keybindings": [
+            {
+                "command": "weeklyReport.generate",
+                "key": "ctrl+shift+g",
+                "mac": "cmd+shift+g",
+                "when": "editorTextFocus"
+            }
+        ],
+        "viewsContainers": {
+            "activitybar": [
+                {
+                    "id": "report-generator",
+                    "title": "Report Generator",
+                    "icon": "resources/report-icon.svg"
+                }
+            ]
+        },
+        "views": {
+            "report-generator": [
+                {
+                    "id": "reportActions",
+                    "name": "Report Actions"
+                }
+            ]
+        },
+        "menus": {
+            "view/title": [
+                {
+                    "command": "weeklyReport.generate",
+                    "when": "view == reportActions",
+                    "group": "navigation"
+                }
+            ],
+            "view/item/context": [
+                {
+                    "command": "weeklyReport.generateDaily",
+                    "group": "inline",
+                    "when": "view == reportActions"
+                },
+                {
+                    "command": "weeklyReport.generateWeekly",
+                    "group": "inline",
+                    "when": "view == reportActions"
+                },
+                {
+                    "command": "weeklyReport.generateMonthly",
+                    "group": "inline",
+                    "when": "view == reportActions"
+                },
+                {
+                    "command": "weeklyReport.generateQuarterly",
+                    "group": "inline",
+                    "when": "view == reportActions"
+                }
+            ],
+            "editor/title": [
+                {
+                    "command": "weeklyReport.generate",
+                    "group": "navigation@1",
+                    "when": "editorIsOpen"
+                },
+                {
+                    "command": "weeklyReport.showQuickPick",
+                    "group": "navigation@1",
+                    "when": "editorIsOpen"
+                }
+            ]
+        }
+    },
+    "scripts": {
+        "vscode:prepublish": "webpack --mode production",
+        "webpack": "webpack --mode development",
+        "webpack-dev": "webpack --mode development --watch",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "package": "vsce package --baseContentUrl https://github.com/yourusername/git-weekly-report/raw/main --baseImagesUrl https://github.com/yourusername/git-weekly-report/raw/main"
+    },
+    "devDependencies": {
+        "@types/jest": "^29.5.12",
+        "@types/node": "^20.11.24",
+        "@types/vscode": "^1.80.0",
+        "@typescript-eslint/eslint-plugin": "^7.1.1",
+        "@typescript-eslint/parser": "^7.1.1",
+        "eslint": "^8.57.0",
+        "jest": "^29.7.0",
+        "ts-jest": "^29.1.2",
+        "ts-loader": "^9.5.1",
+        "typescript": "^5.3.3",
+        "webpack": "^5.97.1",
+        "webpack-cli": "^5.1.4"
+    },
+    "icon": "resources/logo.png",
+    "dependencies": {
+        "openai": "^4.77.3"
+    },
+    "bundleDependencies": [
+        "openai"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/kj-dylan/plugin"
+    },
+    "bugs": {
+        "url": "https://github.com/kj-dylan/plugin/issues"
+    },
+    "homepage": "https://github.com/kj-dylan/plugin#readme"
+}

@@ -1,0 +1,40 @@
+# 源代码
+src/**
+**/*.ts
+**/tsconfig.json
+**/tslint.json
+
+# 保留编译后的文件
+!out/**/*.js
+
+# 开发配置
+.vscode/**
+.vscode-test/**
+.gitignore
+.eslintrc.json
+jest.config.js
+webpack.config.js
+
+# 测试文件
+test/**
+**/*.test.ts
+coverage/**
+.nyc_output/**
+
+# 文档
+docs/**
+*.md
+!README.md
+
+# 其他
+.git/**
+node_modules/**
+reports/**
+**/*.map
+.env*
+report_config.json
+
+# 保留资源
+!resources/logo.png 
+
+enhanced_weekly_report.py

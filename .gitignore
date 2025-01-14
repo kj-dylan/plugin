@@ -1,0 +1,35 @@
+# 开发环境
+node_modules/
+.vscode/
+.idea/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# 构建输出
+out/
+dist/
+*.vsix
+
+# 测试相关
+coverage/
+.nyc_output/
+test-results/
+reports/
+
+# 配置文件
+.env
+.env.local
+.env.*
+report_config.json
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 临时文件
+*.tmp
+*.temp
+.tmp/
+temp/

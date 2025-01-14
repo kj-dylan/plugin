@@ -1,0 +1,26 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- 背景 -->
+    <rect width="128" height="128" rx="16" fill="#1976D2"/>
+    
+    <!-- 文档底纸效果 -->
+    <rect x="24" y="20" width="80" height="88" rx="8" fill="#FFFFFF"/>
+    <rect x="28" y="24" width="72" height="80" rx="6" fill="#E3F2FD"/>
+    
+    <!-- Git 分支图标 -->
+    <circle cx="44" cy="44" r="6" fill="#2196F3"/>
+    <path d="M44 50V64" stroke="#2196F3" stroke-width="3"/>
+    <circle cx="44" cy="70" r="6" fill="#2196F3"/>
+    <path d="M44 44H84" stroke="#2196F3" stroke-width="3"/>
+    
+    <!-- 文档内容线条 -->
+    <rect x="40" y="80" width="48" height="4" rx="2" fill="#90CAF9"/>
+    <rect x="40" y="90" width="32" height="4" rx="2" fill="#90CAF9"/>
+    
+    <!-- 时钟指针效果 -->
+    <circle cx="84" cy="44" r="12" fill="#64B5F6"/>
+    <path d="M84 36V44L90 48" stroke="white" stroke-width="3" stroke-linecap="round"/>
+    
+    <!-- 半透明装饰圆 -->
+    <circle cx="20" cy="108" r="32" fill="#64B5F6" fill-opacity="0.1"/>
+    <circle cx="108" cy="20" r="32" fill="#64B5F6" fill-opacity="0.1"/>
+</svg> 
