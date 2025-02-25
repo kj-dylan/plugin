@@ -1,9 +1,11 @@
 import OpenAI from 'openai';
 import { ReportConfig, GitCommit, RepoStats } from './config';
+import { workspace } from 'vscode';
 
 export class OpenAIService {
     private client: InstanceType<typeof OpenAI>;
     private config: ReportConfig;
+    private model: string;
 
     constructor(apiKey: string, config: ReportConfig) {
         console.log('初始化 OpenAI 服务...');
@@ -14,6 +16,7 @@ export class OpenAIService {
             baseURL: 'https://api.deepseek.com'
         });
         this.config = config;
+        this.model = workspace.getConfiguration('weeklyReport.openai').get('model', 'deepseek-chat');
     }
 
     private getReportTitle(reportType: string): string {
@@ -102,22 +105,41 @@ ${data.commits.map(c => `- ${c.subject} [${c.hash.substring(0, 7)}]
 
 请生成一份结构清晰、重点突出的工作内容总结。`;
 
-        const response = await this.client.chat.completions.create({
-            model: 'deepseek-chat',
-            messages: [
-                {
-                    role: 'system',
-                    content: '你是一名专业的技术周报生成助手。请保持简洁和专业性。'
-                },
-                {
-                    role: 'user',
-                    content: prompt
-                }
-            ],
-            temperature: 0.7,
-            max_tokens: 1000
-        });
+        try {
+            console.log('使用的模型:', this.model);
+            const response = await this.client.chat.completions.create({
+                model: this.model,
+                messages: [
+                    {
+                        role: 'system',
+                        content: '你是一名专业的技术周报生成助手。请保持简洁和专业性。'
+                    },
+                    {
+                        role: 'user',
+                        content: prompt
+                    }
+                ],
+                temperature: 0.7,
+                max_tokens: 1000
+            });
 
-        return `## 工作总结\n\n${response.choices[0].message.content || '生成失败，请重试。'}`;
+            return `## 工作总结\n\n${response.choices[0].message.content || '生成失败，请重试。'}`;
+        } catch (error) {
+            console.error('API 请求失败:', error);
+
+            // 检查 error 是否为 Error 类型
+            if (error instanceof Error) {
+                console.error('错误信息:', error.message);
+                // 如果有 response 属性，尝试访问它
+                const apiError = error as { response?: { data?: any } };
+                if (apiError.response) {
+                    console.error('API 响应:', apiError.response.data);
+                }
+            } else {
+                console.error('未知错误:', error);
+            }
+
+            throw new Error('生成工作总结失败，请检查 API 设置和网络连接。');
+        }
     }
 } 

@@ -35,12 +35,8 @@
 {
     "weeklyReport.reportType": "weekly",  // 报告类型：daily/weekly/monthly/quarterly
     "weeklyReport.openai.baseUrl": "https://api.deepseek.com",  // API 基础 URL
-    "weeklyReport.customRange": {  // 自定义日期范围（可选）
-        "from": "2024-01-01",
-        "to": "2024-01-08"
-    },
-    "weeklyReport.promptTemplate": "自定义提示词模板",  // 自定义 AI 提示词
-    "weeklyReport.outputPath": "reports"  // 报告输出路径
+    "weeklyReport.openai.model": "deepseek-reasoner",  // 使用的模型 v3模型deepseek-chat
+    
 }
 ```
 
@@ -59,6 +55,7 @@
 
 ## 输出示例
 
+![image](./image.png)
 生成的报告包含以下内容：
 1. 工作内容总结（AI 生成）
 2. 统计信息
@@ -82,6 +79,20 @@ A: 检查 API Key 是否正确，以及网络连接是否正常
 ## 后期计划
 
 - 针对月报和季报，支持按周统计
+- 支持时间自定义
+```
+"weeklyReport.customRange": {  // 自定义日期范围（可选）
+        "from": "2024-01-01",
+        "to": "2024-01-08"
+    },
+```
+- 支持自定义提示词模板，支持输出路径设置
+
+```
+"weeklyReport.promptTemplate": "自定义提示词模板",  // 自定义 AI 提示词
+    "weeklyReport.outputPath": "reports"  // 报告输出路径
+```
+
 - 支持更多的 AI 模型
 - 支持自定义报告模板
 - 欢迎提需求

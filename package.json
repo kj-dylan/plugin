@@ -2,7 +2,7 @@
     "name": "git-weekly-report",
     "displayName": "Git工作报告生成器",
     "description": "基于Git提交记录自动生成工作日志的VSCode插件（支持周报、日报、月报、季度报）",
-    "version": "1.0.0",
+    "version": "1.0.3",
     "publisher": "dylan",
     "author": {
         "name": "Dylan",
@@ -154,6 +154,11 @@
                             "description": "结束日期 (YYYY-MM-DD)"
                         }
                     }
+                },
+                "openai.model": {
+                    "type": "string",
+                    "default": "deepseek-chat",
+                    "description": "设置用于生成总结的模型名称"
                 }
             }
         },

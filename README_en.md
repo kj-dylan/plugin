@@ -32,14 +32,10 @@ A VSCode extension that automatically generates work reports based on Git commit
 
 ```json
 {
-    "weeklyReport.reportType": "weekly",  // Report type: daily/weekly/monthly/quarterly
-    "weeklyReport.openai.baseUrl": "https://api.deepseek.com",  // API Base URL
-    "weeklyReport.customRange": {  // Custom date range (optional)
-        "from": "2024-01-01",
-        "to": "2024-01-08"
-    },
-    "weeklyReport.promptTemplate": "Custom prompt template",  // Custom AI prompt
-    "weeklyReport.outputPath": "reports"  // Report output path
+    "weeklyReport.reportType": "weekly",  // 报告类型：daily/weekly/monthly/quarterly
+    "weeklyReport.openai.baseUrl": "https://api.deepseek.com",  // API 基础 URL
+    "weeklyReport.openai.model": "deepseek-reasoner",  // 使用的模型 v3模型deepseek-chat
+    
 }
 ```
 
@@ -58,6 +54,7 @@ A VSCode extension that automatically generates work reports based on Git commit
 
 ## Output Example
 
+![image](./image.png)
 Generated report includes:
 1. Work content summary (AI-generated)
 2. Statistics
@@ -78,7 +75,17 @@ A: Check if there are commits in the date range, or try adjusting the date range
 # Future Plans
 
 - Support weekly statistics for monthly and quarterly reports
-- Welcome to submit requirements
+- Support custom time ranges.
+```
+"weeklyReport.customRange": {  // Custom date range (optional)
+        "from": "2024-01-01",
+        "to": "2024-01-08"
+    },
+``` 
+- Support custom prompt templates and output path settings.
+- Support more AI models.
+
+
 
 ## License
 
